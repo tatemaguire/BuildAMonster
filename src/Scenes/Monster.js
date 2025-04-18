@@ -6,7 +6,6 @@ class Monster extends Phaser.Scene {
         //Create constants for the monster location
         this.bodyX = 300;
         this.bodyY = 350;
-        
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -25,15 +24,39 @@ class Monster extends Phaser.Scene {
     create() {
         let my = this.my;   // create an alias to this.my for readability
 
-        // Create the main body sprite
-        //
-        // this.add.sprite(x,y, "{atlas key name}", "{name of sprite within atlas}")
-        //
-        // look in spritesheet_default.xml for the individual sprite names
-        // You can also download the asset pack and look in the PNG/default folder.
-        my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_greenD.png");
+        // draw right arm
+        my.sprite.rightArm = this.add.sprite(this.bodyX + 100, this.bodyY + 80, "monsterParts", "arm_redA.png");
+        my.sprite.rightArm.angle = -15;
 
-        
+        // draw left arm
+        my.sprite.leftArm = this.add.sprite(this.bodyX - 120, this.bodyY - 20, "monsterParts", "arm_yellowA.png");
+        my.sprite.leftArm.angle = 150;
+
+        // draw right leg
+        my.sprite.rightLeg = this.add.sprite(this.bodyX + 60, this.bodyY + 160, "monsterParts", "leg_redA.png");
+
+        // draw left leg
+        my.sprite.leftLeg = this.add.sprite(this.bodyX - 60, this.bodyY + 160, "monsterParts", "leg_redA.png");
+        my.sprite.leftLeg.flipX = true;
+
+        // draw body
+        my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_redF.png");
+
+        // draw eyes
+        my.sprite.eye1 = this.add.sprite(this.bodyX + 40, this.bodyY - 60, "monsterParts", "eye_yellow.png");
+        my.sprite.eye1.scale = 0.3;
+
+        my.sprite.eye2 = this.add.sprite(this.bodyX - 40, this.bodyY - 60, "monsterParts", "eye_yellow.png");
+        my.sprite.eye2.scale = 0.3;
+
+        my.sprite.eye3 = this.add.sprite(this.bodyX + 20, this.bodyY - 30, "monsterParts", "eye_yellow.png");
+        my.sprite.eye3.scale = 0.6;
+
+        my.sprite.eye4 = this.add.sprite(this.bodyX - 20, this.bodyY - 30, "monsterParts", "eye_yellow.png");
+        my.sprite.eye4.scale = 0.6;
+
+        my.sprite.eye5 = this.add.sprite(this.bodyX, this.bodyY - 70, "monsterParts", "eye_yellow.png");
+        my.sprite.eye5.scale = 0.6;
     }
 
     update() {
