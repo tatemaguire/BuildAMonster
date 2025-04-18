@@ -1,3 +1,5 @@
+const MONSTER_MOVE_SPEED = 2;
+
 class Monster extends Phaser.Scene {
     constructor() {
         super("monsterScene");
@@ -29,7 +31,7 @@ class Monster extends Phaser.Scene {
         my.sprite.rightArm.angle = -15;
 
         // draw left arm
-        my.sprite.leftArm = this.add.sprite(this.bodyX - 120, this.bodyY - 20, "monsterParts", "arm_yellowA.png");
+        my.sprite.leftArm = this.add.sprite(this.bodyX - 120, this.bodyY - 20, "monsterParts", "arm_redA.png");
         my.sprite.leftArm.angle = 150;
 
         // draw right leg
@@ -41,8 +43,20 @@ class Monster extends Phaser.Scene {
 
         // draw body
         my.sprite.body = this.add.sprite(this.bodyX, this.bodyY, "monsterParts", "body_redF.png");
+        
+        // draw antenna
+        my.sprite.rightAntenna = this.add.sprite(this.bodyX + 55, this.bodyY - 105, "monsterParts", "detail_yellow_antenna_small.png");
+        my.sprite.leftAntenna = this.add.sprite(this.bodyX - 55, this.bodyY - 105, "monsterParts", "detail_yellow_antenna_small.png");
+        my.sprite.leftAntenna.flipX = true;
 
-        // draw eyes
+        // draw antenna eyes
+        my.sprite.rightAntennaEye = this.add.sprite(this.bodyX + 61, this.bodyY - 119, "monsterParts", "eye_yellow.png");
+        my.sprite.rightAntennaEye.scale = 0.2;
+
+        my.sprite.leftAntennaEye = this.add.sprite(this.bodyX - 61, this.bodyY - 119, "monsterParts", "eye_yellow.png");
+        my.sprite.leftAntennaEye.scale = 0.2;
+
+        // draw eyes on the face
         my.sprite.eye1 = this.add.sprite(this.bodyX + 40, this.bodyY - 60, "monsterParts", "eye_yellow.png");
         my.sprite.eye1.scale = 0.3;
 
@@ -57,12 +71,48 @@ class Monster extends Phaser.Scene {
 
         my.sprite.eye5 = this.add.sprite(this.bodyX, this.bodyY - 70, "monsterParts", "eye_yellow.png");
         my.sprite.eye5.scale = 0.6;
+
+        // draw mouth
+        my.sprite.smile = this.add.sprite(this.bodyX, this.bodyY + 80, "monsterParts", "mouth_closed_happy.png");
+
+        my.sprite.fang = this.add.sprite(this.bodyX, this.bodyY + 80, "monsterParts", "mouthJ.png");
+        my.sprite.fang.visible = false;
+        
+        // draw nose
+        my.sprite.nose = this.add.sprite(this.bodyX, this.bodyY + 40, "monsterParts", "nose_yellow.png");
+
+        // set input callbacks for smiling/fanging
+        this.input.keyboard.on('keydown-S', (event) => {
+            my.sprite.smile.visible = true;
+            my.sprite.fang.visible = false;
+        });
+        this.input.keyboard.on('keydown-F', (event) => {
+            my.sprite.smile.visible = false;
+            my.sprite.fang.visible = true;
+        });
+
+        // set A and D keys
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
 
-       
+        // poll for A key
+        if (this.aKey.isDown) {
+            this.bodyX -= MONSTER_MOVE_SPEED;
+            for (let spr in my.sprite) {
+                my.sprite[spr].x -= MONSTER_MOVE_SPEED;
+            }
+        }
+        // poll for D key
+        if (this.dKey.isDown) {
+            this.bodyX += MONSTER_MOVE_SPEED;
+            for (let spr in my.sprite) {
+                my.sprite[spr].x += MONSTER_MOVE_SPEED;
+            }
+        }
     }
 
 }
